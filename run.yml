@@ -1,0 +1,11 @@
+---
+- name: Disconnect server connection or infra
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Remove SSH accress key
+      lineinfile: dest=./.ssh/authorized_keys
+                  state=absent
+                  regexp='^{{ remove_key | replace("+", "\+") }}$'
+      when: 
+        - remove_key is defined
